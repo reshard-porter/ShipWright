@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+/* Dark mode follows the data-theme attribute set by the inline script in layout.tsx. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/*
+ * Design tokens. Components use the semantic names (bg-surface, text-muted,
+ * bg-primary…) and never raw hex, so dark mode is a single variable swap.
+ * Every text/background pairing below meets WCAG AA (4.5:1).
+ */
+:root {
+  --page: #f7f8fa;
+  --surface: #ffffff;
+  --surface-muted: #f2f4f7;
+  --border: #e4e7ec;
+  --border-strong: #d0d5dd;
+  --ink: #0b1220;
+  --muted: #667085;
+
+  --primary: #2b59c3; /* Harbor blue: 6.3:1 on white */
+  --primary-hover: #1f45a0;
+  --primary-soft: #e8eefb;
+  --on-primary: #ffffff;
+
+  --accent: #c2410c; /* Signal orange: 5.2:1 on white */
+  --accent-soft: #fdeee6;
+
+  --st-review: #475467;
+  --st-review-bg: #f2f4f7;
+  --st-planned: #5b3fc4;
+  --st-planned-bg: #efebfc;
+  --st-progress: #b45309;
+  --st-progress-bg: #fef3e2;
+  --st-shipped: #047857;
+  --st-shipped-bg: #e6f6f0;
+  --st-closed: #b42318;
+  --st-closed-bg: #fdecea;
+}
+
+[data-theme="dark"] {
+  --page: #0b1220;
+  --surface: #121a2b;
+  --surface-muted: #182237;
+  --border: #24304a;
+  --border-strong: #33415f;
+  --ink: #e6eaf2;
+  --muted: #98a2b3;
+
+  --primary: #6e93f0;
+  --primary-hover: #8eabf4;
+  --primary-soft: #1b2a4d;
+  --on-primary: #0b1220;
+
+  --accent: #fb8b5b;
+  --accent-soft: #3a2116;
+
+  --st-review: #c0c7d4;
+  --st-review-bg: #222c40;
+  --st-planned: #b7a6f5;
+  --st-planned-bg: #2a2350;
+  --st-progress: #f5b85a;
+  --st-progress-bg: #3a2a12;
+  --st-shipped: #5fd4a8;
+  --st-shipped-bg: #0f3328;
+  --st-closed: #f59d94;
+  --st-closed-bg: #3d1a17;
+
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-soft: var(--primary-soft);
+  --color-on-primary: var(--on-primary);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+html {
+  background: var(--page);
+  color: var(--ink);
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
