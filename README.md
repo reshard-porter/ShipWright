@@ -31,15 +31,23 @@ A product feedback tool built with Next.js 16. Customers post ideas and vote on 
 
 ## Run it locally
 
-You need Node 20.9+ and Docker (or any Postgres 16).
+You need Node 20.9+ and a Postgres database (Docker Desktop, or `brew install postgresql@16` on a Mac).
 
 ```bash
-cp .env.example .env            # then set SESSION_SECRET: openssl rand -base64 32
-docker compose up -d            # Postgres on :5432 (also creates the test database)
 npm install
-npm run db:reset                # run migrations and load demo data
-npm run dev                     # http://localhost:3000
+npm run dev                     # then open http://localhost:3000
 ```
+
+That's it. Before the app starts, a setup step handles everything else automatically:
+
+- creates `.env` and generates a session secret
+- finds your Postgres, whether it's Docker (user `postgres`) or Homebrew (your Mac username), and saves the working connection in `.env`
+- starts Postgres with Docker or Homebrew if it isn't running, and installs it with Homebrew on a Mac if it's missing
+- creates the databases, builds the tables, and loads demo data the first time
+
+When everything is already set up, this check adds about half a second to startup. If it can't fix something, it says what's wrong in plain words. You can also run it on its own with `npm run setup`.
+
+If `localhost:3000` shows a page that isn't Shipwright, another app is using port 3000. Use the address printed in the terminal instead (for example `http://localhost:3001`).
 
 On the sign-in page, pick a demo account. All three use the password `shipwright-demo`.
 
@@ -53,11 +61,12 @@ On the sign-in page, pick a demo account. All three use the password `shipwright
 
 | Command             | What it does                                                    |
 | ------------------- | --------------------------------------------------------------- |
-| `npm run dev`       | Start the dev server                                            |
+| `npm run dev`       | Set up anything missing, then start the dev server              |
+| `npm run setup`     | Run the setup step on its own, with full output                 |
 | `npm run check`     | Lint, typecheck, then run unit and integration tests            |
 | `npm test`          | Unit and integration tests (needs `TEST_DATABASE_URL`)          |
 | `npm run test:e2e`  | Build the app and run the Playwright suite against it          |
-| `npm run db:reset`  | Apply migrations and reseed demo data                           |
+| `npm run db:reset`  | Set up, then wipe and reload the demo data                      |
 | `npm run db:generate` | Create a migration after changing `src/db/schema.ts`          |
 
 If Playwright can't download its own browser, `PW_CHANNEL=chrome npm run test:e2e` uses your installed Chrome.
