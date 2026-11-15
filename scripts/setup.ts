@@ -202,7 +202,19 @@ async function needsSeed(appUrl: string) {
 
 // ---------------------------------------------------------------- main
 
+function checkNodeVersion() {
+  const [major, minor] = process.versions.node.split(".").map(Number);
+  if (major < 22 || (major === 22 && minor < 13)) {
+    throw new SetupError(
+      `Shipwright needs Node.js 22.13 or newer, but this computer has ${process.versions.node}.\n` +
+        "  Install the LTS version from https://nodejs.org, open a new terminal window, then run:\n" +
+        "  rm -rf node_modules && npm install && npm run dev",
+    );
+  }
+}
+
 async function main() {
+  checkNodeVersion();
   if (!quiet) console.log("\nSetting up Shipwright\n");
   ensureEnvFile();
 

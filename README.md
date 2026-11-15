@@ -31,7 +31,7 @@ A product feedback tool built with Next.js 16. Customers post ideas and vote on 
 
 ## Run it locally
 
-You need Node 20.9+ and a Postgres database (Docker Desktop, or `brew install postgresql@16` on a Mac).
+You need Node.js 22.13 or newer (the LTS version from [nodejs.org](https://nodejs.org) is easiest) and a Postgres database (Docker Desktop, or `brew install postgresql@16` on a Mac).
 
 ```bash
 npm install
